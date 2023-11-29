@@ -8,10 +8,14 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  bool changeIcon = false;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: ListView(
+      appBar: AppBar(
+        title: const Text("Flutter"),
+      ),
+      body: Column(
         children: [
           Image.asset(
             'images/lake.png',
@@ -19,51 +23,56 @@ class _HomeScreenState extends State<HomeScreen> {
             height: 240,
             fit: BoxFit.cover,
           ),
-          titleSection,
+          Container(
+            padding: const EdgeInsets.all(32),
+            child: Row(
+              children: [
+                Expanded(
+                  /*1*/
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      /*2*/
+                      Container(
+                        padding: const EdgeInsets.only(bottom: 8),
+                        child: const Text(
+                          'Oeschinen Lake Campground',
+                          style: TextStyle(
+                            fontWeight: FontWeight.normal,
+                          ),
+                        ),
+                      ),
+                      Text(
+                        'Kandersteg, Switzerland',
+                        style: TextStyle(
+                          color: Colors.grey[500],
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                /*3*/
+                InkWell(
+                  onTap: () {
+                    setState(() {
+                      changeIcon = !changeIcon;
+                    });
+                  },
+                  child: Icon(
+                    Icons.star,
+                    color: changeIcon ? Colors.black : Colors.red[500],
+                  ),
+                ),
+                const Text('41'),
+              ],
+            ),
+          ),
           buttonSection(),
           textSection,
         ],
       ),
     );
   }
-
-  Widget titleSection = Container(
-    padding: const EdgeInsets.all(32),
-    child: Row(
-      children: [
-        Expanded(
-          /*1*/
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              /*2*/
-              Container(
-                padding: const EdgeInsets.only(bottom: 8),
-                child: const Text(
-                  'Oeschinen Lake Campground',
-                  style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-              ),
-              Text(
-                'Kandersteg, Switzerland',
-                style: TextStyle(
-                  color: Colors.grey[500],
-                ),
-              ),
-            ],
-          ),
-        ),
-        /*3*/
-        Icon(
-          Icons.star,
-          color: Colors.red[500],
-        ),
-        const Text('41'),
-      ],
-    ),
-  );
 
   Column buildButtonColumn(Color color, IconData icon, String label) {
     return Column(
